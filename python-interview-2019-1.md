@@ -86,7 +86,22 @@
    > 返回：`[(-1, 0, 1), (-1, 2, -1)]`
 
    答案：
-
+   
+   from itertools import combinations, permutations(全排列), product(笛卡尔积)
+   def foo(nums):
+      result= []
+      for a, b, c in combinations(num, 3):
+         if a + b + c ==0:
+            result.append(a, b, c)
+      return result
+for x in permutations('abcd', 2)
+   print(x)
+   
+for x in combinations('abc', 3)
+   print(x)
+for x in product('abc', 3)
+   print(x)
+   
    ```Python
    def func(item)
     length = len(item)
@@ -123,7 +138,16 @@
    > 返回：`3`
 
    答案：
-
+   递归
+   def depth_of_list(items):
+      if isinstance(items, list):
+         max_depth = 1
+         for item in items:
+            curr_depth = depth_of_list(item)
+            if curr_depth + 1 > max_depth
+               max_depth = curr_depth +1
+         return max_depth
+      return  0
    ```Python
    def func(item):
     max_deep = 0
@@ -152,35 +176,54 @@
    >
    > 返回：`http://t.cn/E6MUth1`
 
-   答案：
+   答案：62进制
 
    ```Python
-   import urllib
-   def func(url):
-       urljoin(url, ...)
+   seq_num = 1000000
+   url_maps_1 = {}
+   # url_maps_2 = {}
+   def to)base62(num):
+      chars = '0123456789qwertyuioplkjhgfdsazxcvbnmQAZWSXEDCRFVTGBYHNMJUIKLOP'
+      result = []
+      while num>0:
+         result.append(chars[num % 62])
+         num //= 62
+     return ''.join(recersed(result))
+   
+   def to_short(url):
+      if url in url_maps:
+         return url_maps(url)
+      global seq_num 
+      seq_num += 1
+      short_url = f'http://t.cn/to_{base62(seq_num)}'
+      url_maps[url]=short_url
+      return url_maps
+      
    ```
 
 8. 用5个线程，将1~100的整数累加到一个初始值为0的变量上，每次累加时将线程ID和本次累加后的结果打印出来。
 
-    答案：
-
-    ```Python
-   from threading import Thread
-   def func():
-       num  = 0
-       for i in range(1001):
-           num += i
-
-   threads = [Thread(target=func) for i in range(5)]
-   for i in theards:
-       i.start()
-       i.join()
-
-    ```
+    答案：枷锁
+    from threading import Thread, get_ident, Lock
+    from concurrent import ThreadPoolExecutor
+    locker = Lock()
+    result, i = 0, 1
+    def calc():
+      global result, i 
+      while True:
+         with Locker:
+            if i> 100:
+               break
+            result , i = result+i, i +1
+            print(get_ident(), result)
+    for _ in range(5):
+         Thread(tanget=calc).start()
+    with ThreadPoolExcutor(max_workers=5) as pool:
+         pool.submit(calc)
 
 9. 请阐述Python是如何进行内存管理的。
 
-    答案：
+    答案：16-20天
 
     ```
     
@@ -234,7 +277,7 @@
 
     ```
     cookie： cookie是在返回resp的时候把需要保持的东西写入浏览器直接保持起来
-    session： session是放在请求中
+    session： session是服务器中
     ```
 
 13. 请阐述访问一个用Django或Flask开发的Web应用，从用户在浏览器中输入网址回车到浏览器收到Web页面的整个过程中，到底发生了哪些事情，越详细越好。
@@ -242,12 +285,13 @@
     答案：
 
     ```
+    
     解析网址，url请求服务器，uwsgi请求数据库，返回给服务器，服务器给浏览器响应
     ```
 
 14. 请阐述HTTPS的工作原理，并说明该协议与HTTP之间的区别。
 
-    答案：
+    答案：https阮一峰
 
     ```
     区别：防止脚本攻击，传输更稳定，有公钥和私钥
@@ -255,7 +299,7 @@
 
 15. 简述你认为新浪微博是如何让订阅者在第一时间获得博主发布的消息。
 
-    答案：
+    答案：场链接推送websocket
 
     ```
     运用celery做消息队列，轮询所有用户，一个一个发送
@@ -263,8 +307,13 @@
 
 16. 简述如何检查数据库是不是系统的性能瓶颈以及你在工作中是如何优化数据库操作性能的。
 
-    答案：
-
+    答案：258
+    先主从复制，读写分离 dbrouters
+    做分布式集群（一主带三从）  
+    缓存
+    原生sql
+    98天nginx集群 
+    keepalived双活服务
     ```
     首先查看sql语句是否有多重查询，再查看慢查询日志，再优化（加索引）
     ```
@@ -275,7 +324,7 @@
 
     ```Shell
     
-   tail -m 100000 access.log
+   tail -100000 /var/log/nginx/access.log | awk (sed) '{print $1}' | sort | uniq -c | sort -nr | head -1
     ```
 
 18. 请阐述跨站脚本攻击（XSS）、跨站身份伪造（CSRF）和SQL注射攻击的原理及防范措施。
@@ -287,3 +336,8 @@
     CSRF: 携带已登录的用户的cookie在另一个网站登录
     SQL: 当以字符串结尾的时候，黑客就可以用字符串拼接的方式，来拼接字符串进行删库操作
     ```
+    star法则
+    背景
+    需求评估
+    核心业务的开发和版本迭代
+    移动端数据接口的开发和文档编写
