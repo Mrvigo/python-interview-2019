@@ -13,7 +13,9 @@
    答案：
 
    ```
-   
+   [(0, 1), (1, 2), (2, 3),(3, 4), (4, 5)]
+   {1:item(1), 3:item(9)}
+   KeyError
    ```
 
 2. 下面的Python代码会输出什么。
@@ -28,7 +30,7 @@
    答案：
 
    ```
-   
+   [7, 6, 6, 5]
    ```
 
 3. 有一个通过网络获取数据的Python函数（可能会因为网络或其他原因出现异常），写一个装饰器让这个函数在出现异常时可以重新执行，但尝试重新执行的次数不得超过指定的最大次数。
@@ -36,6 +38,21 @@
    答案：
 
    ```Python
+   def try_error(func):
+    
+    def wrapper(**args, **kwargs):
+        
+        count = 0
+        while True:
+          try:
+              result = func(**args, **kwargs)
+              return result
+          except:
+            count += 1
+            if count > 10:
+                break
+        return wrapper
+    
    
    ```
 
@@ -58,7 +75,8 @@
    答案：
 
    ```Python
-   
+   max[prices(k) for k in prices]
+  {k: v for k, v in prices.items() if v> 100}
    ```
 
 5. 写一个函数，传入的参数是一个列表，如果列表中的三个元素`a`、`b`、`c`相加之和为`0`，就将这个三个元素组成一个三元组，最后该函数返回一个包含了所有这样的三元组的列表。例如：
@@ -70,7 +88,28 @@
    答案：
 
    ```Python
-   
+   def func(item)
+    length = len(item)
+    if length >= 3:
+    	result = []
+        for i in range(length):
+            try:
+            	a = item.copy.deepcopy()[i+1:]
+            except 	IndexError:
+                return result
+            try:
+        		b = item.copy.deepcopy()[i+2:]
+            except 	IndexError:
+                return result
+            for j in a:
+                for m in b:
+                    temp = item[i] + j + m
+                    if temp ==0:
+                        result.append(temp)
+                    else:
+                        pass
+    else:
+        pass
    ```
 
 6. 写一个函数，传入的参数是一个列表（列表中的元素可能也是一个列表），返回该列表最大的嵌套深度，例如：
@@ -86,7 +125,25 @@
    答案：
 
    ```Python
-   
+   def func(item):
+    max_deep = 0
+    temp = []
+    while True:
+        result = item 
+        length = len(item)
+        if length:
+            for i in result:
+                if len(i)>1:
+                    if isinstance(i, list)
+                    	max_deep += 1
+                     	temp.append(i)
+                else:
+                    pass
+             result = temp
+             temp = []
+        else:
+            break
+   return max_deep
    ```
 
 7. 写一个函数，实现将输入的长链接转换成短链接，每个长链接对应的短链接必须是独一无二的且每个长链接只应该对应到一个短链接，假设短链接统一以`http://t.cn/`开头。例如：给定一个长链接：，会返回形如：的短链接。
@@ -98,7 +155,9 @@
    答案：
 
    ```Python
-   
+   import urllib
+   def func(url):
+       urljoin(url, ...)
    ```
 
 8. 用5个线程，将1~100的整数累加到一个初始值为0的变量上，每次累加时将线程ID和本次累加后的结果打印出来。
@@ -106,7 +165,17 @@
     答案：
 
     ```Python
-    
+   from threading import Thread
+   def func():
+       num  = 0
+       for i in range(1001):
+           num += i
+
+   threads = [Thread(target=func) for i in range(5)]
+   for i in theards:
+       i.start()
+       i.join()
+
     ```
 
 9. 请阐述Python是如何进行内存管理的。
@@ -141,7 +210,9 @@
     答案：
 
     ```SQL
-    
+    select rq, '胜', '负' from
+    (select count(shengfu) from tb_result group by rq)
+    group by shengfu;
     ```
 
 11. 列举出你知道的HTTP请求头选项并说明其作用。
@@ -149,7 +220,12 @@
      答案：
 
      ```
-     
+   Head: 请求头，请求方法
+   User-Agent: 浏览器
+   Application: 应用
+   Language: 语言
+   Accept：接收
+   Host: 主机
      ```
 
 12. 阐述Web应用中的Cookie和Session到底有什么区别和联系。
@@ -157,7 +233,8 @@
     答案：
 
     ```
-    
+    cookie： cookie是在返回resp的时候把需要保持的东西写入浏览器直接保持起来
+    session： session是放在请求中
     ```
 
 13. 请阐述访问一个用Django或Flask开发的Web应用，从用户在浏览器中输入网址回车到浏览器收到Web页面的整个过程中，到底发生了哪些事情，越详细越好。
@@ -165,7 +242,7 @@
     答案：
 
     ```
-    
+    解析网址，url请求服务器，uwsgi请求数据库，返回给服务器，服务器给浏览器响应
     ```
 
 14. 请阐述HTTPS的工作原理，并说明该协议与HTTP之间的区别。
@@ -173,7 +250,7 @@
     答案：
 
     ```
-    
+    区别：防止脚本攻击，传输更稳定，有公钥和私钥
     ```
 
 15. 简述你认为新浪微博是如何让订阅者在第一时间获得博主发布的消息。
@@ -205,5 +282,7 @@
     答案：
 
     ```
-    
+    XSS: 
+    CSRF: 携带已登录的用户的cookie在另一个网站登录
+    SQL: 当以字符串结尾的时候，黑客就可以用字符串拼接的方式，来拼接字符串进行删库操作
     ```
