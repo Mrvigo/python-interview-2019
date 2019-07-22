@@ -76,7 +76,7 @@
 
    ```Python
    max[prices(k) for k in prices]
-  {k: v for k, v in prices.items() if v> 100}
+   {k: v for k, v in prices.items() if v> 100}
    ```
 
 5. 写一个函数，传入的参数是一个列表，如果列表中的三个元素`a`、`b`、`c`相加之和为`0`，就将这个三个元素组成一个三元组，最后该函数返回一个包含了所有这样的三元组的列表。例如：
