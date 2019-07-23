@@ -13,9 +13,10 @@
    答案：
 
    ```
-   [(0, 1), (1, 2), (2, 3),(3, 4), (4, 5)]
-   {1:item(1), 3:item(9)}
-   KeyError
+   生成式： 
+   列表 [('a', 1), ('b', 2), ('c', 3), ('d', 4)]
+   字典 {1: item1, 3: item9}
+   集合 6
    ```
 
 2. 下面的Python代码会输出什么。
@@ -30,7 +31,7 @@
    答案：
 
    ```
-   [7, 6, 6, 5]
+   过滤 
    ```
 
 3. 有一个通过网络获取数据的Python函数（可能会因为网络或其他原因出现异常），写一个装饰器让这个函数在出现异常时可以重新执行，但尝试重新执行的次数不得超过指定的最大次数。
@@ -40,18 +41,21 @@
    ```Python
    def try_error(func):
     
-    def wrapper(**args, **kwargs):
+    def retry(tires=1, errors=Exception):
+    
+    def outer(func):
         
-        count = 0
-        while True:
-          try:
-              result = func(**args, **kwargs)
-              return result
-          except:
-            count += 1
-            if count > 10:
-                break
-        return wrapper
+        def inner(*args, **kwargs):
+            for _ in range(tires):
+                try:
+            		return func(*args, **kwargs)
+                except errors:
+                    pass
+        return inner
+    return outer
+   @retry(tires=3)
+   def foo()
+	   print('xy')
     
    
    ```
@@ -75,8 +79,8 @@
    答案：
 
    ```Python
-   max[prices(k) for k in prices]
-   {k: v for k, v in prices.items() if v> 100}
+   max(zip(prices.values(), prices.keys()))[1]
+   {k:v for k, v in prices.items() if v > 100}
    ```
 
 5. 写一个函数，传入的参数是一个列表，如果列表中的三个元素`a`、`b`、`c`相加之和为`0`，就将这个三个元素组成一个三元组，最后该函数返回一个包含了所有这样的三元组的列表。例如：
@@ -87,6 +91,8 @@
 
    答案：
    
+   
+   ```Python
    from itertools import combinations, permutations(全排列), product(笛卡尔积)
    def foo(nums):
       result= []
@@ -94,37 +100,14 @@
          if a + b + c ==0:
             result.append(a, b, c)
       return result
-for x in permutations('abcd', 2)
-   print(x)
+   for x in permutations('abcd', 2)
+      print(x)
    
-for x in combinations('abc', 3)
-   print(x)
-for x in product('abc', 3)
-   print(x)
+   for x in combinations('abc', 3)
+      print(x)
+   for x in product('abc', 3)
+      print(x)
    
-   ```Python
-   def func(item)
-    length = len(item)
-    if length >= 3:
-    	result = []
-        for i in range(length):
-            try:
-            	a = item.copy.deepcopy()[i+1:]
-            except 	IndexError:
-                return result
-            try:
-        		b = item.copy.deepcopy()[i+2:]
-            except 	IndexError:
-                return result
-            for j in a:
-                for m in b:
-                    temp = item[i] + j + m
-                    if temp ==0:
-                        result.append(temp)
-                    else:
-                        pass
-    else:
-        pass
    ```
 
 6. 写一个函数，传入的参数是一个列表（列表中的元素可能也是一个列表），返回该列表最大的嵌套深度，例如：
@@ -138,6 +121,8 @@ for x in product('abc', 3)
    > 返回：`3`
 
    答案：
+   
+   ```Python
    递归
    def depth_of_list(items):
       if isinstance(items, list):
@@ -148,26 +133,6 @@ for x in product('abc', 3)
                max_depth = curr_depth +1
          return max_depth
       return  0
-   ```Python
-   def func(item):
-    max_deep = 0
-    temp = []
-    while True:
-        result = item 
-        length = len(item)
-        if length:
-            for i in result:
-                if len(i)>1:
-                    if isinstance(i, list)
-                    	max_deep += 1
-                     	temp.append(i)
-                else:
-                    pass
-             result = temp
-             temp = []
-        else:
-            break
-   return max_deep
    ```
 
 7. 写一个函数，实现将输入的长链接转换成短链接，每个长链接对应的短链接必须是独一无二的且每个长链接只应该对应到一个短链接，假设短链接统一以`http://t.cn/`开头。例如：给定一个长链接：，会返回形如：的短链接。
@@ -188,7 +153,7 @@ for x in product('abc', 3)
       while num>0:
          result.append(chars[num % 62])
          num //= 62
-     return ''.join(recersed(result))
+     return ''.join(reversed(result))
    
    def to_short(url):
       if url in url_maps:
@@ -203,7 +168,9 @@ for x in product('abc', 3)
 
 8. 用5个线程，将1~100的整数累加到一个初始值为0的变量上，每次累加时将线程ID和本次累加后的结果打印出来。
 
-    答案：枷锁
+    答案：
+    ```Python
+    枷锁
     from threading import Thread, get_ident, Lock
     from concurrent import ThreadPoolExecutor
     locker = Lock()
@@ -220,7 +187,7 @@ for x in product('abc', 3)
          Thread(tanget=calc).start()
     with ThreadPoolExcutor(max_workers=5) as pool:
          pool.submit(calc)
-
+   ```
 9. 请阐述Python是如何进行内存管理的。
 
     答案：16-20天
